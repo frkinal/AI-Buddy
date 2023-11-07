@@ -26,9 +26,13 @@ import {
 } from "@/components/ui/select";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 const ImagePage = () => {
   const router = useRouter();
+
+  const proModal = useProModal();
+
   const [photos, setPhotos] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,9 +57,9 @@ const ImagePage = () => {
       setPhotos(urls);
     } catch (error: any) {
       if (error?.response?.status === 403) {
-        // proModal.onOpen();
+        proModal.onOpen();
       } else {
-        toast.error("Something went wrong.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       router.refresh();
